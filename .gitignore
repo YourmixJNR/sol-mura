@@ -1,0 +1,18 @@
+# Remix Artifacts
+artifacts/
+cache/
+
+# Environment files
+.env
+
+# Compiled files
+*.json
+*.dbg
+
+# Logs
+*.log
+
+# Git Setup
+.git
+
+.deps/
