@@ -25,7 +25,7 @@ contract ERC20 {
     }
 
     function giveMeOneToken() external {
-        balanceOf[msg.sender] += 1e18; // 1 token with 18 decimals
+        balanceOf[msg.sender] += 1e18;
     }
 
     function transferFrom(
@@ -33,7 +33,12 @@ contract ERC20 {
         address to,
         uint256 value
     ) external returns (bool) {
-        require(balanceOf[from] >= value, "ERC20: Insufficient sender balance");
+        require(
+            allowance[from][msg.sender] >= value,
+            "ERC20: Insufficient allwoance"
+        );
+
+        allowance[from][msg.sender] -= value;
 
         _transfer(from, to, value);
     }
@@ -43,18 +48,18 @@ contract ERC20 {
         address to,
         uint256 value
     ) private returns (bool) {
-        require(
-            balanceOf[msg.sender] >= value,
-            "ERC20: Insufficient sender balance"
-        );
+        require(balanceOf[from] >= value, "ERC20: Insufficient sender balance");
 
         balanceOf[from] -= value;
+
         balanceOf[to] += value;
+
         return true;
     }
 
     function approve(address spender, uint256 value) external returns (bool) {
-        allowance[msg.sender][spender] = value;
+        allowance[msg.sender][spender] += value;
+
         return true;
     }
 }
