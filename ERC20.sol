@@ -13,18 +13,15 @@ contract ERC20 {
     mapping(address => mapping(address => uint256)) public allowance;
 
     function transfer(address to, uint256 value) public returns (bool) {
-        require(
-            balanceOf[msg.sender] >= value,
-            "ERC20: Insufficient sender balance"
-        );
-
         // msg.sender: decrease token balance by value
-        balanceOf[msg.sender] -= value;
+        // balanceOf[msg.sender] -= value;
 
         // to: increase token balance by value
-        balanceOf[to] += value;
+        // balanceOf[to] += value;
 
-        return true;
+        // return true;
+
+        _transfer(msg.sender, to, value);
     }
 
     function transferFrom(
@@ -32,12 +29,23 @@ contract ERC20 {
         address to,
         uint256 value
     ) public returns (bool) {
-        allowance[from][msg.sender] -= value;
+        require(balanceOf[from] >= value, "ERC20: Insufficient sender balance");
+
+        _transfer(from, to, value);
+    }
+
+    function _transfer(
+        address from,
+        address to,
+        uint256 value
+    ) private returns (bool) {
+        require(
+            balanceOf[msg.sender] >= value,
+            "ERC20: Insufficient sender balance"
+        );
 
         balanceOf[from] -= value;
-
         balanceOf[to] += value;
-
         return true;
     }
 
