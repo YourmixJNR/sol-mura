@@ -2,18 +2,21 @@
 pragma solidity >=0.8.2 <0.9.0;
 
 contract ERC20 {
-    string constant public  name = "MyTokenName";
-    string constant public  symbol = "MTN";
-    uint8 constant public  decimal = 18;
+    string public constant name = "MyTokenName";
+    string public constant symbol = "MTN";
+    uint8 public constant decimal = 18;
 
     uint256 public totalSupply;
 
-    mapping (address => uint256) public  balanceOf;
+    mapping(address => uint256) public balanceOf;
 
-    mapping (address => mapping (address => uint256)) public allowance;
+    mapping(address => mapping(address => uint256)) public allowance;
 
     function transfer(address to, uint256 value) public returns (bool) {
-        require(balanceOf[msg.sender] >= value, "ERC20: Insufficient sender balance");
+        require(
+            balanceOf[msg.sender] >= value,
+            "ERC20: Insufficient sender balance"
+        );
 
         // msg.sender: decrease token balance by value
         balanceOf[msg.sender] -= value;
@@ -24,7 +27,11 @@ contract ERC20 {
         return true;
     }
 
-    function transferFrom(address from, address to, uint256 value) public returns (bool) {
+    function transferFrom(
+        address from,
+        address to,
+        uint256 value
+    ) public returns (bool) {
         allowance[from][msg.sender] -= value;
 
         balanceOf[from] -= value;
@@ -32,7 +39,10 @@ contract ERC20 {
         balanceOf[to] += value;
 
         return true;
-        
-    } 
+    }
 
+    function approve(address spender, uint256 value) public returns (bool) {
+        allowance[msg.sender][spender] = value;
+        return true;
+    }
 }
