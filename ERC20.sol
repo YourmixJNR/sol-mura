@@ -10,15 +10,21 @@ contract ERC20 {
         uint256 value
     );
 
-    string public constant name = "MyTokenName";
-    string public constant symbol = "MTN";
-    uint8 public constant decimal = 18;
+    string public name;
+    string public symbol;
+    uint8 public immutable decimal;
 
     uint256 public totalSupply;
 
     mapping(address => uint256) public balanceOf;
 
     mapping(address => mapping(address => uint256)) public allowance;
+
+    constructor(string memory _name, string memory _symbol, uint8 _decimal) {
+        name = _name;
+        symbol = _symbol;
+        decimal = _decimal;
+    }
 
     function transfer(address to, uint256 value) external returns (bool) {
         _transfer(msg.sender, to, value);
