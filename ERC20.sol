@@ -54,8 +54,6 @@ contract ERC20 {
 
     function mint(address to, uint256 value) external onlyOwner {
         _mint(to, value);
-
-        emit Transfer(address(0), to, value);
     }
 
     function _burn(address from, uint256 value) private {
