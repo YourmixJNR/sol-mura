@@ -2,6 +2,15 @@
 pragma solidity >=0.8.2 <0.9.0;
 
 contract ERC20 {
+    // modifiers
+    modifier onlyOwner() {
+        require(
+            msg.sender == owner,
+            "ERC20: Only owner can call this function"
+        );
+        _;
+    }
+
     // envents
     event Transfer(address indexed from, address indexed to, uint256 value);
     event Approval(
@@ -43,8 +52,7 @@ contract ERC20 {
         totalSupply += value;
     }
 
-    function mint(address to, uint256 value) external returns (bool) {
-        require(msg.sender == owner, "ERC20: Only owner can mint");
+    function mint(address to, uint256 value) external onlyOwner {
         _mint(to, value);
 
         emit Transfer(address(0), to, value);
@@ -55,8 +63,7 @@ contract ERC20 {
         totalSupply -= value;
     }
 
-    function burn(address from, uint256 value) external returns (bool) {
-        require(msg.sender == owner, "ERC20: Only owner can burn");
+    function burn(address from, uint256 value) external onlyOwner {
         _burn(from, value);
 
         emit Transfer(from, address(0), value);
