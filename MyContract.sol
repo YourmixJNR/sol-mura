@@ -1,24 +1,23 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.2 <0.9.0;
 
-contract Father {
-    uint256 public myNumber1;
+contract Parent {
+    uint256 public myNumber;
 
-    function setMyNumber1(uint256 newNumber) external {
-        myNumber1 = newNumber;
+    constructor() {
+        myNumber = 40;
     }
-}
-contract Mother {
-    uint256 public myNumber2;
-
-    function setMyNumber2(uint256 newNumber) external {
-        myNumber2 = newNumber;
+    function setMyNumber(uint256 newNumber) external {
+        myNumber = newNumber;
     }
 }
 
-contract Child is Father, Mother {
+contract Child is Parent {
+    constructor() {
+        // this will override the parent's constructor value
+        myNumber = 20;
+    }
     function addToMyNumber(uint256 addition) external {
-        myNumber1 += addition;
-        myNumber2 += addition;
+        myNumber += addition;
     }
 }
