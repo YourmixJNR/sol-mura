@@ -6,43 +6,27 @@ pragma solidity >=0.8.2 <0.9.0;
 contract GrandFather {
     string public myGrandFatherString;
 
+    constructor(string memory s) {
+        myGrandFatherString = s;
+    }
+
     function setMyString() public virtual {
         myGrandFatherString = "GrandFather";
     }
 }
 
-contract GrandMother {
-    string public myGrandMotherString;
-
-    function setMyString() public virtual {
-        myGrandMotherString = "GrandMother";
-    }
-}
-
-contract Father is GrandFather {
+abstract contract Father is GrandFather {
     string public myFatherString;
 
-    function setMyString() public virtual override {
-        myFatherString = "Father";
-        super.setMyString();
+    constructor() {
+        myFatherString = "S";
     }
 }
 
-contract Mother is GrandMother {
-    string public myMotherString;
-
-    function setMyString() public virtual override {
-        myMotherString = "Mother";
-        super.setMyString();
-    }
-}
-
-contract Child is Father, Mother {
+contract Child is Father {
     string public myChildString;
 
-    function setMyString() public override(Father, Mother) {
-        myChildString = "Child";
-        Father.setMyString();
-        Mother.setMyString();
+    constructor(string memory s) GrandFather(s) {
+        myChildString = s;
     }
 }
