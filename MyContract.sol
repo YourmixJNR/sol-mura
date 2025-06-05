@@ -1,29 +1,48 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.2 <0.9.0;
 
-contract Father {
-    uint256 private myNumber;
+//demonstrates multiple inheritance and function overriding in Solidity
 
-    function setMyNumber(uint256 newNumber) external virtual {
-        myNumber = newNumber;
+contract GrandFather {
+    string public myGrandFatherString;
+
+    function setMyString() public virtual {
+        myGrandFatherString = "GrandFather";
     }
 }
-contract Mother {
-    uint256 private myNumber;
 
-    function setMyNumber(uint256 newNumber) external virtual {
-        myNumber = newNumber;
+contract GrandMother {
+    string public myGrandMotherString;
+
+    function setMyString() public virtual {
+        myGrandMotherString = "GrandMother";
+    }
+}
+
+contract Father is GrandFather {
+    string public myFatherString;
+
+    function setMyString() public virtual override {
+        myFatherString = "Father";
+        super.setMyString();
+    }
+}
+
+contract Mother is GrandMother {
+    string public myMotherString;
+
+    function setMyString() public virtual override {
+        myMotherString = "Mother";
+        super.setMyString();
     }
 }
 
 contract Child is Father, Mother {
-    uint256 private myNumber;
+    string public myChildString;
 
-    function addToMyNumber(uint256 addition) external {
-        myNumber += addition;
-    }
-
-    function setMyNumber(uint256 newNumber) external override(Father, Mother) {
-        myNumber = newNumber;
+    function setMyString() public override(Father, Mother) {
+        myChildString = "Child";
+        Father.setMyString();
+        Mother.setMyString();
     }
 }
