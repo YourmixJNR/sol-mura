@@ -1,32 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.2 <0.9.0;
 
-//demonstrates multiple inheritance and function overriding in Solidity
+import {IERC20} from "./IERC20.sol";
 
-contract GrandFather {
-    string public myGrandFatherString;
-
-    constructor(string memory s) {
-        myGrandFatherString = s;
-    }
-
-    function setMyString() public virtual {
-        myGrandFatherString = "GrandFather";
-    }
-}
-
-abstract contract Father is GrandFather {
-    string public myFatherString;
-
-    constructor() {
-        myFatherString = "S";
-    }
-}
-
-contract Child is Father {
-    string public myChildString;
-
-    constructor(string memory s) GrandFather(s) {
-        myChildString = s;
+contract MyContract {
+    function payMe(IERC20 token, uint256 value) external {
+        bool success = token.transferFrom(msg.sender, address(this), value);
+        require(success);
     }
 }

@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: GPL-3.0
 pragma solidity >=0.8.2 <0.9.0;
 
-contract ERC20 {
+import {IERC20} from "./IERC20.sol";
+
+contract ERC20 is IERC20 {
     // modifiers
     modifier onlyOwner() {
         require(
@@ -10,14 +12,6 @@ contract ERC20 {
         );
         _;
     }
-
-    // envents
-    event Transfer(address indexed from, address indexed to, uint256 value);
-    event Approval(
-        address indexed owner,
-        address indexed spender,
-        uint256 value
-    );
 
     string public name;
     string public symbol;
