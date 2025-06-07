@@ -38,7 +38,7 @@ contract ERC20 is IERC20 {
     }
 
     function transfer(address to, uint256 value) external returns (bool) {
-        _transfer(msg.sender, to, value);
+        return _transfer(msg.sender, to, value);
     }
 
     function _mint(address to, uint256 value) private {
@@ -75,7 +75,8 @@ contract ERC20 is IERC20 {
 
         emit Approval(from, msg.sender, allowance[from][msg.sender]);
 
-        _transfer(from, to, value);
+        bool success = _transfer(from, to, value);
+        return success;
     }
 
     function _transfer(
